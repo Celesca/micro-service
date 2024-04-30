@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GlobalClientModule } from './client.module';
 
 @Module({
-  imports: [GlobalClientModule],
+  imports: [],
   controllers: [AppController],
   providers: [AppService],
 })
