@@ -11,7 +11,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('user')
+  // User API Endpoints
+
+  @Get('users')
   getUser(): Observable<string> {
     return this.appService.getUser();
   }
