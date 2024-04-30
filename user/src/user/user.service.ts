@@ -8,9 +8,9 @@ export class UserService {
         return 'This action returns all users';
     }
 
-    createNewUser(user: CreateUserDto): CreateUserDto {
+    createNewUser(user: CreateUserDto): string {
         const newUser = { ... user};
-        return newUser;
+        return "User created successfully!"
 
     }
 }

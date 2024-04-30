@@ -14,9 +14,9 @@ export class UserController {
         return 'This action returns all users';
     }
 
-    @MessagePattern({ cmd: 'post/user'})
+    @MessagePattern({ cmd: 'post/users'})
     @Post()
-    createNewUser(@Body() user: CreateUserDto) : CreateUserDto {
+    createNewUser(@Body() user: CreateUserDto) : string {
         return this.userService.createNewUser(user);
     }
 
