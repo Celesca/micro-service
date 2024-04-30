@@ -15,7 +15,7 @@ export class AppService {
   }
 
   getUser(): Observable<string> {
-    return this.userClient.send({ cmd: 'get/user' }, {});
+    return this.userClient.send({ cmd: 'get/users' }, {});
   }
 
   getProduct(): Observable<string> {
