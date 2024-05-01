@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Observable } from 'rxjs';
 
@@ -14,8 +14,13 @@ export class AppController {
   // User API Endpoints
 
   @Get('users')
-  getUser(): Observable<string> {
-    return this.appService.getUser();
+  getUsers(): Observable<string> {
+    return this.appService.getUsers();
+  }
+
+  @Post('users')
+  postUsers(): Observable<string> {
+    return this.appService.postUsers();
   }
 
   @Get('product')

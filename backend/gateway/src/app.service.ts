@@ -14,8 +14,12 @@ export class AppService {
     return 'Hello World!';
   }
 
-  getUser(): Observable<string> {
+  getUsers(): Observable<string> {
     return this.userClient.send({ cmd: 'get/users' }, {});
+  }
+
+  postUsers(): Observable<string> {
+    return this.userClient.send({ cmd: 'post/users' }, {});
   }
 
   getProduct(): Observable<string> {
