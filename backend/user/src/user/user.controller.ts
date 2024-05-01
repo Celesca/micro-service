@@ -11,12 +11,12 @@ export class UserController {
     @MessagePattern({ cmd: 'get/users'})
     @Get()
     getAllUsers() {
-        return 'This action returns all users';
+        return this.userService.getAllUsers();
     }
 
     @MessagePattern({ cmd: 'post/users'})
     @Post()
-    createNewUser(@Body() user: CreateUserDto) : string {
+    createNewUser(@Body() user: CreateUserDto) {
         return this.userService.createNewUser(user);
     }
 
