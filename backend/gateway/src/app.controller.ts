@@ -1,6 +1,7 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Observable } from 'rxjs';
+import { CreateUserDto } from './models/user/create-user.dto';
 
 @Controller()
 export class AppController {
@@ -18,9 +19,14 @@ export class AppController {
     return this.appService.getUsers();
   }
 
+  @Get('users/:id')
+  getUserById(@Param('id') id: string): Observable<string> {
+    return this.appService.getUserById(+id);
+  }
+
   @Post('users')
-  postUsers(): Observable<string> {
-    return this.appService.postUsers();
+  postUsers(@Body() newUser: CreateUserDto): Observable<string> {
+    return this.appService.postUsers(newUser);
   }
 
   @Get('product')
