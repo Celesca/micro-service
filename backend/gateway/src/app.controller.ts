@@ -1,6 +1,7 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Observable } from 'rxjs';
+import { CreateUserDto } from './models/user/create-user.dto';
 
 @Controller()
 export class AppController {
@@ -9,18 +10,6 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
-  }
-
-  // User API Endpoints
-
-  @Get('users')
-  getUsers(): Observable<string> {
-    return this.appService.getUsers();
-  }
-
-  @Post('users')
-  postUsers(): Observable<string> {
-    return this.appService.postUsers();
   }
 
   @Get('product')

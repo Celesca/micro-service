@@ -1,5 +1,7 @@
 import {
   Controller,
+  Get,
+  Post,
   Body,
   Patch,
   Param,
@@ -8,26 +10,24 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @MessagePattern({ cmd: 'get/users' })
-  findAll() {
-    return this.usersService.findAll();
+  @Post()
+  create(@Body() newUser: CreateUserDto) : Observable<string> {
+    return this.usersService.postUsers(newUser);
   }
 
-  @MessagePattern({ cmd: 'get/usersById' })
-  findOne(@Payload() id: number) {
-    return this.usersService.findOne(+id);
+  @Get()
+  findAll(): Observable<string> {
+    return this.usersService.getUsers();
   }
 
-  
-  @MessagePattern({ cmd: 'post/users' })
-  create(@Payload() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.usersService.getUserById(id);
   }
 
   @Patch(':id')

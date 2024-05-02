@@ -1,25 +1,20 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
-import { CreateUserDto } from './models/user/create-user.dto';
 
 @Injectable()
-export class AppService {
+export class UsersService {
   constructor(
     @Inject('USER_SERVICE') private readonly userClient: ClientProxy,
-    @Inject('PRODUCT_SERVICE') private readonly productClient: ClientProxy,
-    @Inject('ORDER_SERVICE') private readonly orderClient: ClientProxy,
   ) {}
-
-  getHello(): string {
-    return 'Hello World!';
-  }
 
   getUsers(): Observable<string> {
     return this.userClient.send({ cmd: 'get/users' }, {});
   }
 
-  getUserById(id: number): Observable<string> {
+  getUserById(id: string): Observable<string> {
     return this.userClient.send({ cmd: 'get/usersById' }, id);
   }
 
@@ -27,11 +22,11 @@ export class AppService {
     return this.userClient.send({ cmd: 'post/users' }, user);
   }
 
-  getProduct(): Observable<string> {
-    return this.productClient.send({ cmd: 'get/product' }, {});
+  update(id: number, updateUserDto: UpdateUserDto) {
+    return `This action updates a #${id} user`;
   }
 
-  getOrder(): Observable<string> {
-    return this.orderClient.send({ cmd: 'get/order' }, {});
+  remove(id: number) {
+    return `This action removes a #${id} user`;
   }
 }
