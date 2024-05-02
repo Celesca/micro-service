@@ -12,23 +12,6 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  // User API Endpoints
-
-  @Get('users')
-  getUsers(): Observable<string> {
-    return this.appService.getUsers();
-  }
-
-  @Get('users/:id')
-  getUserById(@Param('id') id: string): Observable<string> {
-    return this.appService.getUserById(+id);
-  }
-
-  @Post('users')
-  postUsers(@Body() newUser: CreateUserDto): Observable<string> {
-    return this.appService.postUsers(newUser);
-  }
-
   @Get('product')
   getProduct(): Observable<string> {
     return this.appService.getProduct();
