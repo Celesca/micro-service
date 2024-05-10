@@ -7,7 +7,6 @@ import { UsersModule } from './users/users.module';
     MongooseModule.forRoot(
       'mongodb://root:example@localhost:27017/userdb?authSource=admin',
     ),
-    UsersModule,
   ],
   controllers: [],
   providers: [],
