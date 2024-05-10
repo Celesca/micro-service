@@ -26,8 +26,8 @@ export class UsersController {
   }
 
   @MessagePattern({ cmd: 'update/users' })
-  update(@Payload() id: string, updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  update(@Payload() payload : {id: string, updateUserDto: UpdateUserDto } ) {
+    return this.usersService.update(payload.id, payload.updateUserDto);
   }
 
   @MessagePattern({ cmd: 'delete/users'})

@@ -50,6 +50,7 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    console.log(updateUserDto)
     const result = this.userModel.findByIdAndUpdate(
       id, updateUserDto, {new: true})
       .exec();
