@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,7 +15,9 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const user = await this.userModel.findOne({ username: createUserDto.username }).exec();
+      const user = await this.userModel
+        .findOne({ username: createUserDto.username })
+        .exec();
       if (user) {
         throw new BadRequestException('Username already exists');
       }
@@ -20,7 +26,6 @@ export class UsersService {
     } catch (error) {
       return { error };
     }
-
   }
 
   async findAll() {
@@ -32,7 +37,6 @@ export class UsersService {
     } catch (error) {
       return { error };
     }
-
   }
 
   async findOne(id: string) {
@@ -44,15 +48,14 @@ export class UsersService {
       }
       return result;
     } catch (error) {
-      return { error } ;
+      return { error };
     }
-
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    console.log(updateUserDto)
-    const result = this.userModel.findByIdAndUpdate(
-      id, updateUserDto, {new: true})
+    console.log(updateUserDto);
+    const result = this.userModel
+      .findByIdAndUpdate(id, updateUserDto, { new: true })
       .exec();
     return result;
   }
@@ -63,10 +66,9 @@ export class UsersService {
       if (!result) {
         throw new NotFoundException('User not found');
       }
-      return { message: 'Delete successful' }
+      return { message: 'Delete successful' };
     } catch (error) {
       return { error };
     }
-
   }
 }
