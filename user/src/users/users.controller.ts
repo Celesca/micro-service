@@ -1,9 +1,5 @@
 import {
   Controller,
-  Body,
-  Patch,
-  Param,
-  Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,23 +16,22 @@ export class UsersController {
   }
 
   @MessagePattern({ cmd: 'get/usersById' })
-  findOne(@Payload() id: number) {
-    return this.usersService.findOne(+id);
+  findOne(@Payload() id: string) {
+    return this.usersService.findOne(id);
   }
 
-  
   @MessagePattern({ cmd: 'post/users' })
   create(@Payload() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @MessagePattern({ cmd: 'update/users' })
+  update(@Payload() payload : {id: string, updateUserDto: UpdateUserDto } ) {
+    return this.usersService.update(payload.id, payload.updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @MessagePattern({ cmd: 'delete/users'})
+  remove(@Payload() id: string) {
+    return this.usersService.remove(id);
   }
 }
