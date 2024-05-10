@@ -1,27 +1,57 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User, UserDocument } from './schemas/user.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return createUserDto;
-    // return 'This action adds a new user';
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+
+  async create(createUserDto: CreateUserDto) : Promise<User> {
+    const user = await this.userModel.findOne({ username: createUserDto.username }).exec();
+    if (user) {
+      throw new BadRequestException('Username already exists');
+    }
+    const result = new this.userModel(createUserDto);
+    return result.save();
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<User> {
+    try {
+      const result = this.userModel.findById(id).exec();
+      if (!result) {
+        throw new NotFoundException('User not found');
+      }
+      return result;
+    } catch (error) {
+      throw error;
+    }
+
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const result = this.userModel.findByIdAndUpdate(
+      id, updateUserDto, {new: true})
+      .exec();
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    try {
+      const result = await this.userModel.findByIdAndDelete(id).exec();
+      if (!result) {
+        throw new NotFoundException('User not found');
+      }
+      return { message: 'Delete successful' }
+    } catch (error) {
+      throw error;
+    }
+
   }
 }
