@@ -9,28 +9,42 @@ import { Model } from 'mongoose';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(createUserDto: CreateUserDto) : Promise<User> {
-    const user = await this.userModel.findOne({ username: createUserDto.username }).exec();
-    if (user) {
-      throw new BadRequestException('Username already exists');
-    }
-    const result = new this.userModel(createUserDto);
-    return result.save();
-  }
-
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
-  }
-
-  async findOne(id: string): Promise<User> {
+  async create(createUserDto: CreateUserDto) {
     try {
-      const result = this.userModel.findById(id).exec();
+      const user = await this.userModel.findOne({ username: createUserDto.username }).exec();
+      if (user) {
+        throw new BadRequestException('Username already exists');
+      }
+      const result = new this.userModel(createUserDto);
+      return result.save();
+    } catch (error) {
+      return { error };
+    }
+
+  }
+
+  async findAll() {
+    try {
+      const result = this.userModel.find().exec();
+      if (!result) {
+        throw new NotFoundException('No users found');
+      }
+    } catch (error) {
+      return { error };
+    }
+
+  }
+
+  async findOne(id: string) {
+    try {
+      const result = await this.userModel.findById(id).exec();
+      console.log(result);
       if (!result) {
         throw new NotFoundException('User not found');
       }
       return result;
     } catch (error) {
-      throw error;
+      return { error } ;
     }
 
   }
@@ -50,7 +64,7 @@ export class UsersService {
       }
       return { message: 'Delete successful' }
     } catch (error) {
-      throw error;
+      return { error };
     }
 
   }
