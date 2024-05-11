@@ -42,7 +42,6 @@ export class UsersService {
   async findOne(id: string) {
     try {
       const result = await this.userModel.findById(id).exec();
-      console.log(result);
       if (!result) {
         throw new NotFoundException('User not found');
       }
@@ -53,7 +52,6 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    console.log(updateUserDto);
     const result = this.userModel
       .findByIdAndUpdate(id, updateUserDto, { new: true })
       .exec();
