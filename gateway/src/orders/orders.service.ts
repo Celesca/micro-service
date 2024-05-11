@@ -1,26 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class OrdersService {
+  constructor(
+    @Inject('ORDER_SERVICE') private readonly orderClient: ClientProxy 
+  ) {}
+
   create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+    return this.orderClient.send({ cmd: 'create/order' }, createOrderDto);
   }
 
   findAll() {
-    return `This action returns all orders`;
+    return this.orderClient.send({ cmd: 'get/orders' }, {});
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} order`;
+    return this.orderClient.send({ cmd: 'get/orderById' }, id);
   }
 
   update(id: string, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+    return this.orderClient.send({ cmd: 'update/order' }, { id, updateOrderDto });
   }
 
   remove(id: string) {
-    return `This action removes a #${id} order`;
+    return this.orderClient.send({ cmd: 'delete/order' }, id);
   }
 }
