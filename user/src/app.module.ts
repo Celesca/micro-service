@@ -5,7 +5,7 @@ import { UsersModule } from './users/users.module';
   imports: [
     UsersModule,
     MongooseModule.forRoot(
-      'mongodb://root:example@localhost:27017/userdb?authSource=admin',
+      'mongodb://root:root@localhost:27017/userdb?authSource=admin',
     ),
   ],
   controllers: [],

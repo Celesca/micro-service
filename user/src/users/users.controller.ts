@@ -1,6 +1,4 @@
-import {
-  Controller,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -26,11 +24,11 @@ export class UsersController {
   }
 
   @MessagePattern({ cmd: 'update/users' })
-  update(@Payload() payload : {id: string, updateUserDto: UpdateUserDto } ) {
+  update(@Payload() payload: { id: string; updateUserDto: UpdateUserDto }) {
     return this.usersService.update(payload.id, payload.updateUserDto);
   }
 
-  @MessagePattern({ cmd: 'delete/users'})
+  @MessagePattern({ cmd: 'delete/users' })
   remove(@Payload() id: string) {
     return this.usersService.remove(id);
   }

@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Post()
-  create(@Body() newUser: CreateUserDto) : Observable<string> {
+  create(@Body() newUser: CreateUserDto): Observable<string> {
     return this.usersService.postUsers(newUser);
   }
 
