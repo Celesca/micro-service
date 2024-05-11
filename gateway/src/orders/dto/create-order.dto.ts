@@ -12,6 +12,4 @@ export class CreateOrderDto {
 
   @IsNumber()
   price: number;
-
-
 }

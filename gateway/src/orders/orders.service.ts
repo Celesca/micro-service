@@ -6,7 +6,7 @@ import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class OrdersService {
   constructor(
-    @Inject('ORDER_SERVICE') private readonly orderClient: ClientProxy 
+    @Inject('ORDER_SERVICE') private readonly orderClient: ClientProxy,
   ) {}
 
   create(createOrderDto: CreateOrderDto) {
@@ -22,7 +22,10 @@ export class OrdersService {
   }
 
   update(id: string, updateOrderDto: UpdateOrderDto) {
-    return this.orderClient.send({ cmd: 'update/order' }, { id, updateOrderDto });
+    return this.orderClient.send(
+      { cmd: 'update/order' },
+      { id, updateOrderDto },
+    );
   }
 
   remove(id: string) {
