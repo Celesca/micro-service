@@ -1,22 +1,15 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
+  @MessagePattern({ cmd: 'get/products ' })
+  create(@Payload() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
 
