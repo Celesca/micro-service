@@ -22,7 +22,7 @@ export class ProductsService {
           productName: createProductDto.productName,
         })
         .exec();
-      if (!product) {
+      if (product) {
         throw new BadRequestException('Product already exists!');
       }
       const newProduct = new this.productModel(createProductDto);
