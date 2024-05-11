@@ -72,16 +72,18 @@ export class OrdersService {
     }
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     try {
       const query = 'DELETE FROM orders WHERE id = ?';
       const values = [id];
-      const result = this.connection.query(query, values);
+      const result = await this.connection.query(query, values);
       if (result[0].affectedRows === 0) {
         throw new NotFoundException('Order not found');
       }
+
       return { message: 'Order deleted successfully', order_id: id };
     } catch (error) {
+      // Return status code 404 if order is not found
       return { error };
     }
   }
